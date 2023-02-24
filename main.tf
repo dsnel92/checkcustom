@@ -170,6 +170,12 @@ locals {
   image_id = lookup(local.image_map[local.image_name], var.VPC_Region)
 }
 
+resource "ibm_is_subnet_reserved_ip" "mgmt" {
+  subnet    = data.ibm_is_subnet.cp_subnet0.id
+  name      = "secrsi-checkpoint-reserved-ip1"
+  address        = "${replace(data.ibm_is_subnet.cp_subnet0.ipv4_cidr_block, "0/26", "132")}"
+}
+
 resource "ibm_is_instance" "cp_gw_vsi" {
   depends_on     = [ibm_is_security_group_rule.allow_ingress_all]
   name           = var.VNF_CP-GW_Instance
@@ -182,9 +188,7 @@ resource "ibm_is_instance" "cp_gw_vsi" {
     name            = "eth0"
     subnet          = data.ibm_is_subnet.cp_subnet0.id
     primary_ip {
-      name = "checkpoint-reserved-ip1"
-      auto_delete = true
-      address = "${replace(ibm_is_subnet.example.ipv4_cidr_block, "0/26", "132")}"
+      reserved_ip = ibm_is_subnet_reserved_ip.mgmt.reserved_ip
     }
     security_groups = [ibm_is_security_group.ckp_security_group.id]
     allow_ip_spoofing = true

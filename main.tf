@@ -181,8 +181,20 @@ locals {
 
 resource "ibm_is_subnet_reserved_ip" "mgmt" {
   subnet    = data.ibm_is_subnet.cp_subnet0.id
-  name      = "secrsi-checkpoint-reserved-ip1"
+  name      = "secrsi-checkpoint-reserved-ip0"
   address        = "10.10.11.132"
+}
+
+resource "ibm_is_subnet_reserved_ip" "external" {
+  subnet    = data.ibm_is_subnet.cp_subnet1.id
+  name      = "secrsi-checkpoint-reserved-ip1"
+  address        = "10.10.11.4"
+}
+
+resource "ibm_is_subnet_reserved_ip" "internal" {
+  subnet    = data.ibm_is_subnet.cp_subnet2.id
+  name      = "secrsi-checkpoint-reserved-ip2"
+  address        = "10.10.11.68"
 }
 
 resource "ibm_is_instance" "cp_gw_vsi" {
@@ -207,6 +219,9 @@ resource "ibm_is_instance" "cp_gw_vsi" {
   network_interfaces {
     name            = "eth1"
     subnet          = data.ibm_is_subnet.cp_subnet1.id
+    primary_ip {
+      reserved_ip = ibm_is_subnet_reserved_ip.external.reserved_ip
+    }
     security_groups = [ibm_is_security_group.ckp_security_group.id]
     allow_ip_spoofing = true
   }
@@ -215,6 +230,9 @@ resource "ibm_is_instance" "cp_gw_vsi" {
   network_interfaces {
     name            = "eth2"
     subnet          = data.ibm_is_subnet.cp_subnet2.id
+    primary_ip {
+      reserved_ip = ibm_is_subnet_reserved_ip.internal.reserved_ip
+    }
     security_groups = [ibm_is_security_group.ckp_security_group.id]
     allow_ip_spoofing = true
   }

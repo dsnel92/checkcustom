@@ -15,47 +15,47 @@ provider "ibm" {
 ##############################################################################
 
 variable "VPC_Region" {
-  default     = ""
+  default     = "eu-de"
   description = "The region where the VPC, networks, and Check Point VSI will be provisioned."
 }
 
 variable "Resource_Group" {
-  default     = ""
+  default     = "secrsi-rg-sandbox"
   description = "The resource group that will be used when provisioning the Check Point VSI. If left unspecififed, the account's default resource group will be used."
 }
 
 variable "VPC_Name" {
-  default     = ""
+  default     = "secrsi-vpc-connectivity"
   description = "The VPC where the Check Point VSI will be provisioned."
 }
 
 variable "Management_Subnet_ID" {
-  default     = ""
+  default     = "02c7-65467ae1-c1ca-4e29-aebb-6098234f82a4"
   description = "The ID of the Check Point management subnet."
 }
 
 variable "External_Subnet_ID" {
-  default     = ""
+  default     = "02c7-cadb31fd-fbb6-4ba5-bac5-4ffefa91a6c4"
   description = "The ID of the subnet that exists in front of the Check Point Security Gateway that will be provisioned (the 'external' network)."
 }
 
 variable "Internal_Subnet_ID" {
-  default     = ""
+  default     = "02c7-40600da5-2597-4c6b-91bb-cb0655ddd3f8"
   description = "The ID of the subnet that exists behind  the Check Point Security Gateway that will be provisioned (the 'internal' network)."
 }
 
 variable "SSH_Key" {
-  default     = ""
+  default     = "secrsi-nelson"
   description = "The pubic SSH Key that will be used when provisioning the Check Point VSI."
 }
 
 variable "VNF_CP-GW_Instance" {
-  default     = "checkpoint-gateway"
+  default     = "secrsi-checkpoint-gateway2"
   description = "The name of the Check Point Security Gatewat that will be provisioned."
 }
 
 variable "VNF_Security_Group" {
-  default     = ""
+  default     = "secrsi-vpc-connectivity-sg-checkpoint2"
   description = "The name of the security group assigned to the Check Point VSI."
 }
 
@@ -95,7 +95,7 @@ variable "ibmcloud_api_key" {
 }
 
 variable "TF_VERSION" {
- default = "0.12"
+ default = "0.13"
  description = "terraform engine version to be used in schematics"
 }
 

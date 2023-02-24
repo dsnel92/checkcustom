@@ -182,7 +182,7 @@ locals {
 resource "ibm_is_subnet_reserved_ip" "mgmt" {
   subnet    = data.ibm_is_subnet.cp_subnet0.id
   name      = "secrsi-checkpoint-reserved-ip1"
-  address        = "${replace(data.ibm_is_subnet.cp_subnet0.ipv4_cidr_block, "0/26", "132")}"
+  address        = "10.10.11.132"
 }
 
 resource "ibm_is_instance" "cp_gw_vsi" {
